@@ -8,25 +8,21 @@ const imageEntries = Object.entries(images).map(([path, mod]) => {
     url: mod.default
   };
 });
-const imageList = imageEntries.map(entry => entry.url);
-const fileNames = imageEntries.map(entry => entry.fileName);
 
 function App() {
   
-  const [showCard, updateCard] = useState(true);
-  const [cardImage, updateCardImage] = useState(imageList[0]);
-  const [cardName, updateCardName] = useState(fileNames[0]);
+  const [showCard, updateShow] = useState(false);
+  const [card, updateCard] = useState(imageEntries[0]);
 
   useEffect(()=>{
     function handleKeyPress(e){
       if (e.code === "ArrowUp") {
-        updateCard(prev => !prev);
+        updateShow(prev => !prev);
       }
       else if (e.code === "ArrowRight") {
-        const rand = Math.floor(Math.random() * imageList.length);
-        updateCardImage(imageList[rand]);
-        updateCardName(fileNames[rand]);
-        updateCard(false);
+        const rand = Math.floor(Math.random() * imageEntries.length);
+        updateCard(imageEntries[rand])
+        updateShow(false);
       }
     }
 
@@ -43,9 +39,9 @@ function App() {
         <div className="flex items-center justify-center grow">
           <div 
             className='aspect-square w-[min(80vw,80vh)] bg-cover bg-center rounded-full bg-zinc-700 flex items-center justify-center'
-            style={{ backgroundImage: `url(${!showCard ? cardImage : ""})` }}
+            style={{ backgroundImage: `url(${!showCard ? card.url : ""})` }}
           >
-            {showCard && <h2 className="text-white font-bold text-7xl text-center">{cardName}</h2>}
+            {showCard && <h2 className="text-white font-bold text-7xl text-center">{card.fileName}</h2>}
           </div>
         </div>
         <div className="flex items-center justify-center p-4">
