@@ -33,6 +33,7 @@ p{
 
 #header, #footer{
     display: flex; 
+    flex-direction: column;
     align-items: center; 
     justify-content: center; 
 }
@@ -68,4 +69,29 @@ h2 {
 }
 .show > h2{
     display: block;
+}
+
+#progressBar{
+    background-color: oklch(21% 0.006 285.885);
+    width: 30rem;
+    height: 1.5rem;
+    max-width: 80%;
+}
+#progressBar > #innerBar{
+    background-color: oklch(72.3% 0.219 149.579);
+    width: 0%;
+    height: 100%;
+}
+#progressBar > #text{
+    position: absolute;
+    width: 30rem;
+    height: 1.5rem;
+    max-width: 80%;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+#progressBar > #text > p{
+    color: white;
+    font-weight: 700;
 }

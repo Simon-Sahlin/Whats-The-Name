@@ -1,5 +1,7 @@
 const cardComp = document.querySelector(".card")
 const cardText = document.querySelector(".card>h2")
+const progressBar = document.querySelector("#progressBar>#innerBar")
+const progressText = document.querySelector("#progressBar>#text>p")
 
 
 // const input = document.getElementById('folderInput');
@@ -52,6 +54,7 @@ let cards = imageFiles.map(path => {
     }
 })
 
+let absoluteMax = 0;
 function pickNewCard(){
 
     console.log("Picking new card")
@@ -70,6 +73,12 @@ function pickNewCard(){
         }
     }
     console.log(currentIndex)
+
+    if (max > absoluteMax) absoluteMax = max
+    const percentage = 100 - (100*max/absoluteMax)
+    if (percentage > 100) percentage = 100;
+    progressBar.style.setProperty("width", `${percentage}%`)
+    progressText.innerHTML = Math.round(percentage) + "%"
 
     cardComp.classList.remove("show");
     showing = false;
