@@ -75,7 +75,7 @@ function pickNewCard(){
     console.log(currentIndex)
 
     if (max > absoluteMax) absoluteMax = max
-    const percentage = 100 - (100*max/absoluteMax)
+    let percentage = 100 - (100*max/absoluteMax)
     if (percentage > 100) percentage = 100;
     progressBar.style.setProperty("width", `${percentage}%`)
     progressText.innerHTML = Math.round(percentage) + "%"
@@ -104,8 +104,12 @@ window.addEventListener('keydown', (e) => {
         timerStop = 0;
     }
     if (e.code === "ArrowLeft") {
+        if (timerStop == 0)
+            timerStop = Date.now();
         cards[currentIndex].score += 10;
         pickNewCard()
+        timerStart = Date.now();
+        timerStop = 0;
     }
     
     if (e.code === "ArrowUp") {
