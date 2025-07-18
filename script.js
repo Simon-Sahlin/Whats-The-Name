@@ -1,4 +1,5 @@
 const cardComp = document.querySelector(".card")
+const cardImg = document.querySelector(".card>div")
 const cardText = document.querySelector(".card>h2")
 const progressBar = document.querySelector("#progressBar>#innerBar")
 const progressText = document.querySelector("#progressBar>#text>p")
@@ -82,7 +83,7 @@ function pickNewCard(){
 
     cardComp.classList.remove("show");
     showing = false;
-    cardComp.style.setProperty("background-image", `url("${cards[currentIndex].url}")`);
+    cardImg.style.setProperty("background-image", `url("${cards[currentIndex].url}")`);
     cardText.innerHTML = cards[currentIndex].name;
 }
 
@@ -118,7 +119,6 @@ window.addEventListener('keydown', (e) => {
         console.log("Cool!" + (timerStop - timerStart) + " your score would be: " + (7.5*Math.E**(-0.2*(timerStop - timerStart)*0.001) + 4))
         
         cardComp.classList.toggle("show");
-        cardComp.style.setProperty("background-image", `url("${showing ? cards[currentIndex].url : ''}")`);
         showing = !showing;
     }
 });

@@ -59,16 +59,26 @@ p{
     justify-content: center; 
     border-radius: 9999px; 
     background-color: rgb(63,63,70); 
-    background-size: cover; 
+
     aspect-ratio: 1 / 1;  
-    background-position: center; 
+
     width: min(80vw,80vh);
+}
+.card > div{
+    height: 100%;
+    width: 100%;
+    border-radius: 9999px;
+    background-size: cover; 
+    background-position: center; 
 }
 h2 {
     display: none;
 }
 .show > h2{
     display: block;
+}
+.show > div{
+    display: none;
 }
 
 #progressBar{
