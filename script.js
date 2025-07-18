@@ -55,25 +55,21 @@ let cards = imageFiles.map(path => {
     }
 })
 
+
 let absoluteMax = 0;
 function pickNewCard(){
-
-    console.log("Picking new card")
-
     let cumScores = [];
     for (let i = 0; i < cards.length; i++){
         cumScores[i] = cards[i].score + (cumScores[i-1] || 0);
     }
     const max = cumScores[cumScores.length - 1]
     const rand = max * Math.random();
-    console.log({max, cumScores, rand})
     for (let i = 0; i < cumScores.length; i++){
         if (cumScores[i] >= rand){
             currentIndex = i;
             break
         }
     }
-    console.log(currentIndex)
 
     if (max > absoluteMax) absoluteMax = max
     let percentage = 100 - (100*max/absoluteMax)
@@ -82,43 +78,45 @@ function pickNewCard(){
     progressText.innerHTML = Math.round(percentage) + "%"
 
     cardComp.classList.remove("show");
-    showing = false;
     cardImg.style.setProperty("background-image", `url("${cards[currentIndex].url}")`);
     cardText.innerHTML = cards[currentIndex].name;
 }
 
 
 let currentIndex = 0;
-let showing = false;
-let timerStart = Date.now();
+let timerStart = 0;
 let timerStop = 0;
+
+function stopTimer(){
+    if (timerStart == 0)
+        return 0;
+    if (timerStop == 0)
+        timerStop = Date.now();
+    return (7.5*Math.E**(-0.2*(timerStop - timerStart)*0.001) + 4)
+}
+
+function startTimer(){
+    timerStart = Date.now();
+    timerStop = 0;
+}
+
 window.addEventListener('keydown', (e) => {
     if (e.code === "ArrowRight") {
-        if (timerStop == 0)
-            timerStop = Date.now();
-        console.log("Cool!" + (timerStop - timerStart) + " your score would be: " + (7.5*Math.E**(-0.2*(timerStop - timerStart)*0.001) + 4))
-        cards[currentIndex].score -= (7.5*Math.E**(-0.2*(timerStop - timerStart)*0.001) + 4);
+        let score = stopTimer();
+        cards[currentIndex].score -= score;
         if (cards[currentIndex].score < 0)
             cards[currentIndex].score == 0;
         pickNewCard()
-        timerStart = Date.now();
-        timerStop = 0;
+        startTimer()
     }
     if (e.code === "ArrowLeft") {
-        if (timerStop == 0)
-            timerStop = Date.now();
+        stopTimer();
         cards[currentIndex].score += 10;
         pickNewCard()
-        timerStart = Date.now();
-        timerStop = 0;
+        startTimer()
     }
-    
     if (e.code === "ArrowUp") {
-        if (timerStop == 0)
-            timerStop = Date.now();
-        console.log("Cool!" + (timerStop - timerStart) + " your score would be: " + (7.5*Math.E**(-0.2*(timerStop - timerStart)*0.001) + 4))
-        
+        stopTimer();
         cardComp.classList.toggle("show");
-        showing = !showing;
     }
 });
