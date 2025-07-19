@@ -18,6 +18,11 @@ h2{
     font-weight: 700; 
     color: rgb(255,255,255);
 }
+@media only screen and (max-width: 600px) {
+    h2 {
+        font-size: 2rem; 
+    }
+}
 p{
     font-size: 1.25rem; 
     line-height: 1.75rem; 
@@ -50,6 +55,7 @@ p{
     flex-grow: 1; 
     align-items: center; 
     justify-content: center;
+    overflow: hidden;
 }
 
 .card{

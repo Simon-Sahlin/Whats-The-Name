@@ -100,23 +100,53 @@ function startTimer(){
     timerStop = 0;
 }
 
+function actionRight(){
+    let score = stopTimer();
+    cards[currentIndex].score -= score;
+    if (cards[currentIndex].score < 0)
+        cards[currentIndex].score == 0;
+    pickNewCard()
+    startTimer()
+}
+function actionLeft(){
+    stopTimer();
+    cards[currentIndex].score += 10;
+    pickNewCard()
+    startTimer()
+}
+function actionUp(){
+    stopTimer();
+    cardComp.classList.toggle("show");
+}
+
 window.addEventListener('keydown', (e) => {
     if (e.code === "ArrowRight") {
-        let score = stopTimer();
-        cards[currentIndex].score -= score;
-        if (cards[currentIndex].score < 0)
-            cards[currentIndex].score == 0;
-        pickNewCard()
-        startTimer()
+        actionRight();
     }
     if (e.code === "ArrowLeft") {
-        stopTimer();
-        cards[currentIndex].score += 10;
-        pickNewCard()
-        startTimer()
+        actionLeft();
     }
     if (e.code === "ArrowUp") {
-        stopTimer();
-        cardComp.classList.toggle("show");
+        actionUp();
     }
 });
+
+let touchStartX
+let swipeThresh = 100;
+cardComp.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+})
+cardComp.addEventListener('touchmove', (e) => {
+    let dif = e.changedTouches[0].clientX - touchStartX;
+    cardComp.style.transform = `translateX(${dif}px)`;
+})
+cardComp.addEventListener('touchend', (e) => {
+    let dif = e.changedTouches[0].clientX - touchStartX;
+    cardComp.style.transform = `translateX(${0}px)`;
+    if (dif > swipeThresh)
+        actionRight();
+    else if (dif < -swipeThresh)
+        actionLeft();
+    else
+        actionUp();
+})
