@@ -61,6 +61,7 @@ body{
 
 .card{
     display: flex; 
+    flex-direction: column;
     aspect-ratio: 1 / 1; 
     align-items: center; 
     justify-content: center; 
@@ -111,4 +112,13 @@ h2 {
 #progressBar > #text > p{
     color: white;
     font-weight: 700;
+}
+
+input{
+    background-color: rgb(39,39,42);
+    border-radius: 1rem;
+    width: 75%;
+}
+input.hidden{
+    display: none;
 }

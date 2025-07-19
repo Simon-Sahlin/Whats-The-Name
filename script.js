@@ -4,56 +4,21 @@ const cardText = document.querySelector(".card>h2")
 const progressBar = document.querySelector("#progressBar>#innerBar")
 const progressText = document.querySelector("#progressBar>#text>p")
 
-
-// const input = document.getElementById('folderInput');
-// input.addEventListener('change', () => {
-//     const files = Array.from(input.files);
-//     imageFiles = files.filter(file => file.type.startsWith('image/'));
-
-//     console.log(imageFiles); // Array of File objects
-// });
-
-// let imageFiles = null;
-
-let imageFiles = [
-    `assets/cards/Balderado/Agnes_Billing.jpg`,
-    `assets/cards/Balderado/Alexandra Strandberg.jpg`,
-    `assets/cards/Balderado/Alfred 'Affe' Moberg Ericsson.jpg`,
-    `assets/cards/Balderado/Alma Ahner.jpg`,
-    `assets/cards/Balderado/Alma Garplid.jpg`,
-    `assets/cards/Balderado/Anton 'Eken' Ekström.jpg`,
-    `assets/cards/Balderado/Benjamin Bobeck.jpg`,
-    `assets/cards/Balderado/Caroline_'Carro'_Mathiesen.jpg`,
-    `assets/cards/Balderado/Casper Rozman.jpg`,
-    `assets/cards/Balderado/Dexter_Clemensson.jpg`,
-    `assets/cards/Balderado/Ellen_Chrona.jpg`,
-    `assets/cards/Balderado/Emelie Skoglund.jpg`,
-    `assets/cards/Balderado/Greta Lovell.jpg`,
-    `assets/cards/Balderado/Iris Viktualia Vihma.jpg`,
-    `assets/cards/Balderado/Isak_Cronvall.jpg`,
-    `assets/cards/Balderado/Jacob Hulten.jpg`,
-    `assets/cards/Balderado/Jennifer Larsson.jpg`,
-    `assets/cards/Balderado/Leon Dimidis.jpg`,
-    `assets/cards/Balderado/Linus 'Lars' Larsson.jpg`,
-    `assets/cards/Balderado/Lovisa Sturve.jpg`,
-    `assets/cards/Balderado/Lucas Svehla.jpg`,
-    `assets/cards/Balderado/Melissa Duman.jpg`,
-    `assets/cards/Balderado/Noah Kristiansson.jpg`,
-    `assets/cards/Balderado/Nora Kayode Stålklinga.jpg`,
-    `assets/cards/Balderado/Nova Ahlinder.jpg`,
-    `assets/cards/Balderado/Sebastian Salmi.jpg`,
-    `assets/cards/Balderado/Tristan_Ferry.jpg`,
-    `assets/cards/Balderado/Ville Vikingsson.jpg`
-]
-
-let cards = imageFiles.map(path => {
-    const name = path.split("/").pop();
-    return {
-        name,
-        url: encodeURI(path),
-        score: 10
-    }
-})
+let cards = null;
+const input = document.getElementById('folderInput');
+input.addEventListener('change', () => {
+    const files = Array.from(input.files);
+    imageFiles = files.filter(file => file.type.startsWith('image/'));
+    cards = imageFiles.map(file => {
+        return {
+            name: file.name,
+            url: URL.createObjectURL(file),
+            score: 10
+        }
+    })
+    input.classList.add("hidden")
+    startGame();
+});
 
 
 let absoluteMax = 0;
@@ -126,34 +91,36 @@ function actionUp(){
     cardComp.classList.toggle("show");
 }
 
-window.addEventListener('keydown', (e) => {
-    if (e.code === "ArrowRight") {
-        actionRight();
-    }
-    if (e.code === "ArrowLeft") {
-        actionLeft();
-    }
-    if (e.code === "ArrowUp") {
-        actionUp();
-    }
-});
-
-let touchStartX
-let swipeThresh = 100;
-cardComp.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-})
-cardComp.addEventListener('touchmove', (e) => {
-    let dif = e.changedTouches[0].clientX - touchStartX;
-    cardComp.style.transform = `translateX(${dif}px)`;
-})
-cardComp.addEventListener('touchend', (e) => {
-    let dif = e.changedTouches[0].clientX - touchStartX;
-    cardComp.style.transform = `translateX(${0}px)`;
-    if (dif > swipeThresh)
-        actionRight();
-    else if (dif < -swipeThresh)
-        actionLeft();
-    else
-        actionUp();
-})
+function startGame(){
+    window.addEventListener('keydown', (e) => {
+        if (e.code === "ArrowRight") {
+            actionRight();
+        }
+        if (e.code === "ArrowLeft") {
+            actionLeft();
+        }
+        if (e.code === "ArrowUp") {
+            actionUp();
+        }
+    });
+    
+    let touchStartX
+    let swipeThresh = 100;
+    cardComp.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    })
+    cardComp.addEventListener('touchmove', (e) => {
+        let dif = e.changedTouches[0].clientX - touchStartX;
+        cardComp.style.transform = `translateX(${dif}px)`;
+    })
+    cardComp.addEventListener('touchend', (e) => {
+        let dif = e.changedTouches[0].clientX - touchStartX;
+        cardComp.style.transform = `translateX(${0}px)`;
+        if (dif > swipeThresh)
+            actionRight();
+        else if (dif < -swipeThresh)
+            actionLeft();
+        else
+            actionUp();
+    })
+}
