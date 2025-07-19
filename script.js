@@ -76,6 +76,13 @@ function pickNewCard(){
     if (percentage > 100) percentage = 100;
     progressBar.style.setProperty("width", `${percentage}%`)
     progressText.innerHTML = Math.round(percentage) + "%"
+    
+    if (percentage == 100){
+        cardComp.classList.add("show");
+        cardImg.style.setProperty("background-image", `url('assets/winstate.png')`);
+        cardText.innerHTML = "<b><u>Well done!</b></u><br>Refresh to play again";
+        return;
+    }
 
     cardComp.classList.remove("show");
     cardImg.style.setProperty("background-image", `url("${cards[currentIndex].url}")`);
